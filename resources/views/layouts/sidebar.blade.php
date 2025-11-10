@@ -7,6 +7,10 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
+                <a class="nav-link" href="{{ route('admin.laptops.index') }}">
+                <div class="sb-nav-link-icon"><i class="fas fa-laptop"></i></div>
+                Laptop
+                </a>
             </div>
         </div>
         <div class="sb-sidenav-footer">
