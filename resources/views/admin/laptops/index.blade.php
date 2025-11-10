@@ -42,11 +42,11 @@
                                 <td>{{ $laptop->tahun_pengadaan }}</td>
                                 <td>
                                     @if ($laptop->status == '1')
-                                        <span class="badge bg-success">{{ $laptop->status }}</span>
+                                        <span class="badge bg-success">Tersedia</span>
                                     @elseif ($laptop->status == '2')
-                                        <span class="badge bg-warning">{{ $laptop->status }}</span>
+                                        <span class="badge bg-warning">Dipinjam</span>
                                     @else
-                                        <span class="badge bg-secondary">{{ $laptop->status }}</span>
+                                        <span class="badge bg-secondary">Diperbaiki</span>
                                     @endif
                                 </td>
                                 <td>

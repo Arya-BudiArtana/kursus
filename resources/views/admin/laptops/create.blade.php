@@ -47,7 +47,7 @@
                     <div class="mb-3">
                         <label for="tahun_pengadaan" class="form-label">Tahun Pengadaan</label>
                         <input type="number" class="form-control @error('tahun_pengadaan') is-invalid @enderror"
-                            id="tahun_pengadaan" 21 name="tahun_pengadaan" value="{{ old('tahun_pengadaan') }}" required>
+                            id="tahun_pengadaan" name="tahun_pengadaan" value="{{ old('tahun_pengadaan') }}" required>
                         @error('tahun_pengadaan')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

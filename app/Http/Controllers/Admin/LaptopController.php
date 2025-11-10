@@ -34,13 +34,14 @@ class LaptopController extends Controller
             'spesifikasi' => 'required|string|max:255',
             'tahun_pengadaan' => 'required|integer|min:2000', // Asumsi min tahun 2000
         ]);
+
         // 2. Buat data baru
         Laptop::create([
             'merk' => $request->merk,
             'spesifikasi' => $request->spesifikasi,
             'tahun_pengadaan' => $request->tahun_pengadaan,
-            // 'status' otomatis 'available' (sesuai migrasi)
         ]);
+
         // 3. Redirect kembali ke halaman index
         return redirect()->route('admin.laptops.index')
             ->with('success', 'Data laptop berhasil ditambahkan.');
