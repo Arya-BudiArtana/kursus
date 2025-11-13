@@ -39,7 +39,7 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->user->name }}</td>
-                                <td>{{ $item->laptop->merk }}</td>
+                                <td>{{ $item->laptop?->merk }}</td>
                                 <td>{{ $item->tgl_pinjam }}</td>
                                 <td>{{ $item->tgl_kembali }}</td>
                                 <td>

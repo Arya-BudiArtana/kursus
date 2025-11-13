@@ -18,7 +18,7 @@ class PeminjamanLaptopController extends Controller
         $data_peminjaman = PeminjamanLaptop::with(['user', 'laptop'])->latest()->paginate(10);
         // dd($data_peminjaman);
 
-        return view('admin.peminjaman_laptop.index', compact('data_peminjaman'));
+        return view('pegawai.peminjaman_laptop.index', compact('data_peminjaman'));
     }
 
     public function create()
@@ -33,25 +33,66 @@ class PeminjamanLaptopController extends Controller
     public function store(Request $request)
     {
         // 1. Validasi data
-        $request->validate([
+        $formTervalidasi = $request->validate([
             'user_id' => 'required',
             'laptop_id' => 'required',
             'tgl_pinjam' => 'required', // Asumsi min tahun 2000
         ]);
 
-        PeminjamanLaptop::create([
-            'user_id' => $request->user_id,
-            'laptop_id' => $request->laptop_id,
-            'tgl_pinjam' => $request->tgl_pinjam,
-        ]);
+        // Cara persisi
+        // PeminjamanLaptop::create([
+        //     'user_id' => $formTervalidasi['user_id'],
+        //     'laptop_id' => $formTervalidasi['laptop_id'],
+        //     'tgl_pinjam' => $formTervalidasi['tgl_pinjam'],
+        // ]);
+
+        //
+        PeminjamanLaptop::create($formTervalidasi);
 
         // 3. Redirect kembali ke halaman index
         return redirect()->route('admin.peminjamanlaptop.index')
             ->with('success', 'Data laptop berhasil ditambahkan.');
-
     }
 
+    public function edit($id)
+    {
+        $data_peminjam_laptop = PeminjamanLaptop::findOrFail($id);
+        $data_user   = User::get();
+        $data_laptop = Laptop::get();
 
+        return view('admin.peminjaman_laptop.edit', compact('data_peminjam_laptop', 'data_user', 'data_laptop'));
+    }
 
-    public function storePeminjamaLaptop() {}
+    public function update(Request $request, $id)
+    {
+        // 1. Validasi data
+        $formTervalidasi = $request->validate([
+            'user_id' => 'required',
+            'laptop_id' => 'required',
+            'tgl_pinjam' => 'required', // Asumsi min tahun 2000
+            'tgl_kembali' => 'required'
+        ]);
+
+        // Cara persisi
+        // PeminjamanLaptop::create([
+        //     'user_id' => $formTervalidasi['user_id'],
+        //     'laptop_id' => $formTervalidasi['laptop_id'],
+        //     'tgl_pinjam' => $formTervalidasi['tgl_pinjam'],
+        // ]);
+
+        //
+        PeminjamanLaptop::findOrFail($id)->update($formTervalidasi);
+
+        // 3. Redirect kembali ke halaman index
+        return redirect()->route('admin.peminjamanlaptop.index')
+            ->with('success', 'Data laptop berhasil diedit.');
+    }
+
+    public function destroy($id)
+    {
+        PeminjamanLaptop::findOrFail($id)->delete();
+
+        return redirect()->route('admin.peminjamanlaptop.index')
+            ->with('success', 'Data laptop berhasil dihapus.');
+    }
 }

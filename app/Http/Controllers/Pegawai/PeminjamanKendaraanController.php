@@ -1,0 +1,105 @@
+<?php
+
+namespace App\Http\Controllers\Pegawai;
+
+use App\Http\Controllers\Controller;
+use App\Models\Kendaraan;
+use App\Models\Laptop;
+use App\Models\PeminjamanKendaraan;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class PeminjamanKendaraanController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $data_peminjaman_kendaraan = PeminjamanKendaraan::with('user', 'kendaraan')->where('id_user', Auth::id())->latest()->paginate(10);
+
+        return view('pegawai.peminjaman_kendaraan.index', compact('data_peminjaman_kendaraan'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $data_kendaraan = Kendaraan::select('id', 'type_kendaraan')->where('status', 'available')->get();
+
+        return view('pegawai.peminjaman_kendaraan.create', compact('data_kendaraan'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validasiForm = $request->validate([
+            'id_kendaraan' => 'required',
+            'tgl_pinjam' => 'required'
+        ]);
+
+        PeminjamanKendaraan::create([
+            'id_kendaraan' => $validasiForm['id_kendaraan'],
+            'tgl_pinjam' => $validasiForm['tgl_pinjam'],
+            'id_user' => Auth::id(),
+            'approval' => 'draft'
+        ]);
+
+        // 3. Redirect kembali ke halaman index
+        return redirect()->route('pegawai.peminjaman-kendaraan.index')
+            ->with('success', 'Data peminjaman kendaraan berhasil ditambahkan.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $data_sebelumnya = PeminjamanKendaraan::findOrFail($id);
+        $data_kendaraan = Kendaraan::select('id', 'type_kendaraan')->where('status', 'available')->get();
+
+        return view('pegawai.peminjaman_kendaraan.edit', compact('data_sebelumnya', 'data_kendaraan'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $validasiForm = $request->validate([
+            'id_kendaraan' => 'required',
+            'tgl_pinjam' => 'required'
+        ]);
+
+        PeminjamanKendaraan::findOrFail($id)->update($validasiForm);
+
+        // 3. Redirect kembali ke halaman index
+        return redirect()->route('pegawai.peminjaman-kendaraan.index')
+            ->with('success', 'Data peminjaman kendaraan berhasil diubah.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        PeminjamanKendaraan::findOrFail($id)->update([
+            'approval' => 'batal'
+        ]);
+
+        return redirect()->route('pegawai.peminjaman-kendaraan.index')
+            ->with('success', 'Data peminjaman kendaraan berhasil dibatalkan.');
+    }
+}
