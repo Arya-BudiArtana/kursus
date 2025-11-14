@@ -54,7 +54,7 @@ class PeminjamanKendaraanController extends Controller
     public function edit(string $id)
     {
         $data_sebelumnya = PeminjamanKendaraan::findOrFail($id);
-        $data_kendaraan = Kendaraan::select('id', 'type_kendaraan')->where('status', 'available')->get();
+        $data_kendaraan = Kendaraan::findOrFail($data_sebelumnya->id_kendaraan);
 
         return view('admin.peminjaman_kendaraan.edit', compact('data_sebelumnya', 'data_kendaraan'));
     }
