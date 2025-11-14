@@ -62,6 +62,7 @@ Route::middleware(['auth', 'role:1'])->prefix('admin')->name('admin.')->group(fu
 
 Route::middleware(['auth', 'role:2'])->prefix('pegawai')->name('pegawai.')->group(function () {
     Route::resource('peminjaman-kendaraan', PegawaiPeminjamanKendaraanController::class);
+    Route::post('/peminjaman-kendaraan/datatable', [PegawaiPeminjamanKendaraanController::class, 'datatable'])->name('peminjaman-kendaraan.datatable');
 });
 
 require __DIR__ . '/auth.php';

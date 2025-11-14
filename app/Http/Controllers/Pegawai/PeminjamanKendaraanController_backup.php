@@ -9,7 +9,6 @@ use App\Models\PeminjamanKendaraan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Yajra\DataTables\Facades\DataTables;
 
 class PeminjamanKendaraanController extends Controller
 {
@@ -18,16 +17,9 @@ class PeminjamanKendaraanController extends Controller
      */
     public function index()
     {
-        // $data_peminjaman_kendaraan = PeminjamanKendaraan::with('user', 'kendaraan')->where('id_user', Auth::id())->latest()->paginate(10);
-        return view('pegawai.peminjaman_kendaraan.index');
-    }
+        $data_peminjaman_kendaraan = PeminjamanKendaraan::with('user', 'kendaraan')->where('id_user', Auth::id())->latest()->paginate(10);
 
-    public function datatable(Request $request)
-    {
-        $query = PeminjamanKendaraan::query();
-        return DataTables::of($query)
-            ->addIndexColumn()
-            ->make(true);
+        return view('pegawai.peminjaman_kendaraan.index', compact('data_peminjaman_kendaraan'));
     }
 
     /**
