@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pegawai;
 
+use App\Exports\PeminjamanKendaraanExport;
 use App\Http\Controllers\Controller;
 use App\Models\Kendaraan;
 use App\Models\Laptop;
@@ -9,6 +10,7 @@ use App\Models\PeminjamanKendaraan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class PeminjamanKendaraanController extends Controller
@@ -22,9 +24,10 @@ class PeminjamanKendaraanController extends Controller
         return view('pegawai.peminjaman_kendaraan.index');
     }
 
-    public function datatable(Request $request)
+    public function datatable()
     {
         $query = PeminjamanKendaraan::query();
+        $query->with('user', 'kendaraan');
         return DataTables::of($query)
             ->addIndexColumn()
             ->make(true);
@@ -109,5 +112,12 @@ class PeminjamanKendaraanController extends Controller
 
         return redirect()->route('pegawai.peminjaman-kendaraan.index')
             ->with('success', 'Data peminjaman kendaraan berhasil dibatalkan.');
+    }
+
+    public function export()
+    {
+        ini_set('max_execution_time', 0);
+        $filename = 'peminjaman_kendaraan_' . date('Ymd_His') . '.xlsx';
+        return Excel::download(new PeminjamanKendaraanExport, $filename);
     }
 }

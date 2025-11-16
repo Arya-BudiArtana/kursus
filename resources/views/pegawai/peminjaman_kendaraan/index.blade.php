@@ -12,6 +12,9 @@
 				<a href="{{ route('pegawai.peminjaman-kendaraan.create') }}" class="btn btn-primary btn-sm">
 					<i class="fas fa-plus"></i> Tambah Peminjaman Kendaraan Baru
 				</a>
+				<a href="{{ route('pegawai.peminjaman-kendaraan.export') }}" class="btn btn-success btn-sm">
+					<i class="fas fa-file-excel"></i> Eksport Excel
+				</a>
 			</div>
 			<div class="card-body">
 				{{-- Menampilkan notifikasi sukses --}}
@@ -47,15 +50,18 @@
 
 @section('scripts')
 	<script>
+		console.log("{{ route('pegawai.peminjaman-kendaraan.datatable') }}");
 		$(document).ready(function() {
 			$('#peminjaman-kendaraan-table').DataTable({
 				processing: true,
 				serverSide: true,
-				method: "POST",
+				method: "GET",
 				ajax: "{{ route('pegawai.peminjaman-kendaraan.datatable') }}",
 				columns: [{
 						data: 'DT_RowIndex',
-						name: 'DT_RowIndex'
+						name: 'DT_RowIndex',
+						orderable: false,
+						searchable: false
 					},
 					{
 						data: 'user.name',
@@ -82,12 +88,32 @@
 						name: 'approval'
 					},
 					{
-						data: 'actions',
-						name: 'actions',
+						data: 'id',
+						name: 'id',
 						orderable: false,
 						searchable: false,
 						render: function(data, type, row) {
-							return data ?? '-';
+							let editUrl = "{{ route('pegawai.peminjaman-kendaraan.edit', ':id') }}"
+								.replace(':id', data);
+
+							let deleteUrl =
+								"{{ route('pegawai.peminjaman-kendaraan.destroy', ':id') }}".replace(
+									':id', data);
+
+							let actions = `
+								<a href="${editUrl}" class="btn btn-warning btn-sm">
+									<i class="fas fa-edit"></i> Edit
+								</a>
+								<form action="${deleteUrl}" method="POST" class="d-inline">
+									@csrf
+									@method('DELETE')
+									<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin membatalkan data ini?')">
+										<i class="fas fa-trash"></i> Batalkan
+									</button>
+								</form>							
+							`;
+
+							return actions;
 						}
 					},
 				],

@@ -56,13 +56,16 @@ Route::middleware(['auth', 'role:1'])->prefix('admin')->name('admin.')->group(fu
         ->name('peminjaman-kendaraan.approvePinjaman');
     Route::post('/peminjaman-kendaraan/{id}/tolak', [PeminjamanKendaraanController::class, 'tolakPinjaman'])
         ->name('peminjaman-kendaraan.tolakPinjaman');
+    Route::post('/peminjaman-kendaraan/export', [PeminjamanKendaraanController::class, 'export'])
+        ->name('peminjaman-kendaraan.export');
 
     // Route::post('/peminjaman-laptop-store', [PeminjamanLaptopController::class, 'savePeminjaman'])->name('peminjamanlaptop.savepeminjaman');
 });
 
 Route::middleware(['auth', 'role:2'])->prefix('pegawai')->name('pegawai.')->group(function () {
     Route::resource('peminjaman-kendaraan', PegawaiPeminjamanKendaraanController::class);
-    Route::post('/peminjaman-kendaraan/datatable', [PegawaiPeminjamanKendaraanController::class, 'datatable'])->name('peminjaman-kendaraan.datatable');
+    Route::get('/peminjaman-kendaraan-data/datatable', [PegawaiPeminjamanKendaraanController::class, 'datatable'])->name('peminjaman-kendaraan.datatable');
+    Route::get('/peminjaman-kendaraan-data/export-excel', [PegawaiPeminjamanKendaraanController::class, 'export'])->name('peminjaman-kendaraan.export');
 });
 
 require __DIR__ . '/auth.php';
