@@ -56,11 +56,11 @@ class PeminjamanKendaraanImport implements ToCollection, WithHeadingRow, WithMul
             $tgl_kembali = Carbon::parse($row['tgl_kembali'])->format('Y-m-d');
 
             $this->data[] = [
-                'id_kendaraan' => $id_kendaraan,
+                'id_kendaraan' => $id_kendaraan->id,
                 'tgl_pinjam' => $tgl_pinjam,
                 'tgl_kembali' => $tgl_kembali,
                 'approval' => 'draft',
-                'id_user' => $id_user,
+                'id_user' => $id_user->id,
             ];
         }
     }

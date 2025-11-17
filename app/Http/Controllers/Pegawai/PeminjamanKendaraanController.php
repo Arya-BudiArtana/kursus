@@ -130,7 +130,7 @@ class PeminjamanKendaraanController extends Controller
         ]);
 
         $import = new PeminjamanKendaraanImport();
-        Excel::import($import, $request->file('peminjaman_kendaraan'));
+        Excel::import($import, $request->file('file_peminjaman_kendaraan'));
         $datas = $import->getData();
         $peminjaman_kendaraan = PeminjamanKendaraan::insert($datas);
         return redirect()->back()->with('success', 'Data berhasil diimport!');

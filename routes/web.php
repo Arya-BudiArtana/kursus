@@ -61,6 +61,7 @@ Route::middleware(['auth', 'role:2'])->prefix('pegawai')->name('pegawai.')->grou
     Route::resource('peminjaman-kendaraan', PegawaiPeminjamanKendaraanController::class);
     Route::get('/peminjaman-kendaraan-data/datatable', [PegawaiPeminjamanKendaraanController::class, 'datatable'])->name('peminjaman-kendaraan.datatable');
     Route::get('/peminjaman-kendaraan-data/export-excel', [PegawaiPeminjamanKendaraanController::class, 'export'])->name('peminjaman-kendaraan.export');
+    Route::post('/peminjaman-kendaraan/import', [PegawaiPeminjamanKendaraanController::class, 'import'])->name('peminjaman-kendaraan.import');
 });
 
 require __DIR__ . '/auth.php';

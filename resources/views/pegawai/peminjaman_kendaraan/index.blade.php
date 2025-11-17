@@ -15,6 +15,9 @@
 				<a href="{{ route('pegawai.peminjaman-kendaraan.export') }}" class="btn btn-success btn-sm">
 					<i class="fas fa-file-excel"></i> Eksport Excel
 				</a>
+				<button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+					Import Data
+				</button>
 			</div>
 			<div class="card-body">
 				{{-- Menampilkan notifikasi sukses --}}
@@ -44,6 +47,30 @@
 					</tbody>
 				</table>
 			</div>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<form action="{{ route('pegawai.peminjaman-kendaraan.import') }}" method="post" enctype="multipart/form-data">
+				@csrf
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<input type="file" name="file_peminjaman_kendaraan" id="file_peminjaman_kendaraan" class="form-control" required
+							accept=".xlsx">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Import</button>
+					</div>
+				</div>
+			</form>
+
 		</div>
 	</div>
 @endsection
