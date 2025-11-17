@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pegawai;
 
 use App\Exports\PeminjamanKendaraanExport;
 use App\Http\Controllers\Controller;
+use App\Imports\PeminjamanKendaraanImport;
 use App\Models\Kendaraan;
 use App\Models\Laptop;
 use App\Models\PeminjamanKendaraan;
@@ -119,5 +120,19 @@ class PeminjamanKendaraanController extends Controller
         ini_set('max_execution_time', 0);
         $filename = 'peminjaman_kendaraan_' . date('Ymd_His') . '.xlsx';
         return Excel::download(new PeminjamanKendaraanExport, $filename);
+    }
+
+    public function import(Request $request)
+    {
+        //
+        $request->validate([
+            'file_peminjaman_kendaraan' => 'required|mimes:xlsx'
+        ]);
+
+        $import = new PeminjamanKendaraanImport();
+        Excel::import($import, $request->file('peminjaman_kendaraan'));
+        $datas = $import->getData();
+        $peminjaman_kendaraan = PeminjamanKendaraan::insert($datas);
+        return redirect()->back()->with('success', 'Data berhasil diimport!');
     }
 }

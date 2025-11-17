@@ -46,18 +46,13 @@ Route::middleware(['auth', 'role:1'])->prefix('admin')->name('admin.')->group(fu
     Route::delete('/peminjaman-laptop/{id}/delete', [PeminjamanLaptopController::class, 'destroy'])->name('peminjamanlaptop.delete');
 
     // Route::resource('peminjaman-kendaraan', PeminjamanKendaraanController::class);
-    Route::get('/peminjaman-kendaraan', [PeminjamanKendaraanController::class, 'index'])
-        ->name('peminjaman-kendaraan.index');
-    Route::get('/peminjaman-kendaraan/{id}/edit', [PeminjamanKendaraanController::class, 'edit'])
-        ->name('peminjaman-kendaraan.edit');
-    Route::put('/peminjaman-kendaraan/{id}/update', [PeminjamanKendaraanController::class, 'update'])
-        ->name('peminjaman-kendaraan.update');
-    Route::post('/peminjaman-kendaraan/{id}/approve', [PeminjamanKendaraanController::class, 'approvePinjaman'])
-        ->name('peminjaman-kendaraan.approvePinjaman');
-    Route::post('/peminjaman-kendaraan/{id}/tolak', [PeminjamanKendaraanController::class, 'tolakPinjaman'])
-        ->name('peminjaman-kendaraan.tolakPinjaman');
-    Route::post('/peminjaman-kendaraan/export', [PeminjamanKendaraanController::class, 'export'])
-        ->name('peminjaman-kendaraan.export');
+    Route::get('/peminjaman-kendaraan', [PeminjamanKendaraanController::class, 'index'])->name('peminjaman-kendaraan.index');
+    Route::get('/peminjaman-kendaraan/{id}/edit', [PeminjamanKendaraanController::class, 'edit'])->name('peminjaman-kendaraan.edit');
+    Route::put('/peminjaman-kendaraan/{id}/update', [PeminjamanKendaraanController::class, 'update'])->name('peminjaman-kendaraan.update');
+    Route::post('/peminjaman-kendaraan/{id}/approve', [PeminjamanKendaraanController::class, 'approvePinjaman'])->name('peminjaman-kendaraan.approvePinjaman');
+    Route::post('/peminjaman-kendaraan/{id}/tolak', [PeminjamanKendaraanController::class, 'tolakPinjaman'])->name('peminjaman-kendaraan.tolakPinjaman');
+    Route::post('/peminjaman-kendaraan/export', [PeminjamanKendaraanController::class, 'export'])->name('peminjaman-kendaraan.export');
+    Route::post('/peminjaman-kendaraan/import', [PeminjamanKendaraanController::class, 'import'])->name('peminjaman-kendaraan.import');
 
     // Route::post('/peminjaman-laptop-store', [PeminjamanLaptopController::class, 'savePeminjaman'])->name('peminjamanlaptop.savepeminjaman');
 });

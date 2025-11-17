@@ -22,13 +22,13 @@ class PeminjamanKendaraanExport implements FromCollection, WithHeadings, WithMap
     public function headings(): array
     {
         return [
-            'No',
-            'Peminjam',
-            'Nama Kendaraan',
-            'Nomor Polisi',
-            'Tanggal Pinjam',
-            'Tanggal Kembali',
-            'Status Approval',
+            'No', //A1
+            'Peminjam', //B1
+            'Nama Kendaraan', //C1
+            'Nomor Polisi', //D1
+            'Tanggal Pinjam', //E1
+            'Tanggal Kembali', //F1
+            'Status Approval', //G1
         ];
     }
 

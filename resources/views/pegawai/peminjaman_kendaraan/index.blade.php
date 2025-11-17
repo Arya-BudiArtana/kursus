@@ -92,30 +92,32 @@
 						name: 'id',
 						orderable: false,
 						searchable: false,
-						render: function(data, type, row) {
+						render: function(data, type, row, meta) {
 							let editUrl = "{{ route('pegawai.peminjaman-kendaraan.edit', ':id') }}"
 								.replace(':id', data);
-
 							let deleteUrl =
 								"{{ route('pegawai.peminjaman-kendaraan.destroy', ':id') }}".replace(
 									':id', data);
+							let buttons = '';
 
-							let actions = `
-								<a href="${editUrl}" class="btn btn-warning btn-sm">
-									<i class="fas fa-edit"></i> Edit
-								</a>
-								<form action="${deleteUrl}" method="POST" class="d-inline">
-									@csrf
-									@method('DELETE')
-									<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin membatalkan data ini?')">
-										<i class="fas fa-trash"></i> Batalkan
-									</button>
-								</form>							
-							`;
+							if (row.approval == 'draft') {
+								buttons += `<a href="${editUrl}" class="btn btn-warning btn-sm">
+												<i class="fas fa-edit"></i> Edit
+											</a> `;
 
-							return actions;
+								buttons += `<form action="${deleteUrl}" method="POST" class="d-inline">
+												@csrf
+												@method('DELETE')
+												<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin membatalkan data ini?')">
+													<i class="fas fa-trash"></i> Batalkan
+												</button>
+											</form>`;
+							}
+
+							return buttons;
 						}
-					},
+					}
+
 				],
 			});
 		});
