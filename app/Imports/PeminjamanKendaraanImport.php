@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Kendaraan;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Illuminate\Support\MessageBag;
@@ -51,10 +52,13 @@ class PeminjamanKendaraanImport implements ToCollection, WithHeadingRow, WithMul
                 continue; // Skip baris ini dan lanjut ke baris berikutnya
             }
 
+            $tgl_pinjam = Carbon::parse($row['tgl_pinjam'])->format('Y-m-d');
+            $tgl_kembali = Carbon::parse($row['tgl_kembali'])->format('Y-m-d');
+
             $this->data[] = [
                 'id_kendaraan' => $id_kendaraan,
-                'tgl_pinjam' => $row['tgl_pinjam'],
-                'tgl_kembali' => $row['tgl_kembali'],
+                'tgl_pinjam' => $tgl_pinjam,
+                'tgl_kembali' => $tgl_kembali,
                 'approval' => 'draft',
                 'id_user' => $id_user,
             ];
