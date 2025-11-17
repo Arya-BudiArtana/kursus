@@ -28,6 +28,18 @@
 						</button>
 					</div>
 				@endif
+				@if (session('import_errors'))
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Terjadi kesalahan saat mengimpor data:</strong>
+						<ul>
+							@foreach (session('import_errors') as $error)
+								<li>{{ $error }}</li>
+							@endforeach
+						</ul>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+						</button>
+					</div>
+				@endif
 				{{-- Tabel Data --}}
 				<table id="peminjaman-kendaraan-table" class="table table-bordered table-striped table-hover">
 					<thead>

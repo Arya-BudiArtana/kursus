@@ -38,7 +38,8 @@ class PeminjamanKendaraanImport implements ToCollection, WithHeadingRow, WithMul
     {
         foreach ($collection as $row) {
 
-            $id_user = User::where('nip', $row['nip'])->first();
+            $nip = str_replace("'", "", $row['nip']);
+            $id_user = User::where('nip', $nip)->first();
 
             if (!$id_user) {
                 $this->errors->add('User Not Found', "User dengan NIP {$row['nip']} tidak ditemukan.");
@@ -46,6 +47,7 @@ class PeminjamanKendaraanImport implements ToCollection, WithHeadingRow, WithMul
             }
 
             $id_kendaraan = Kendaraan::where('nomor_polisi', $row['nomor_polisi'])->first();
+
 
             if (!$id_kendaraan) {
                 $this->errors->add('Kendaraan Not Found', "Kendaraan dengan Nomor Polisi {$row['nomor_polisi']} tidak ditemukan.");
@@ -68,5 +70,10 @@ class PeminjamanKendaraanImport implements ToCollection, WithHeadingRow, WithMul
     public function getData()
     {
         return $this->data;
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
     }
 }
